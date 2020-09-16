@@ -15,7 +15,7 @@ todoForm.addEventListener("submit", addTodo)
 
 function addTodo(e) {
     e.preventDefault()
-    let title = document.createTextNode("Title Todo List")
+    let title = document.createTextNode(todoInput.value)
     const li = document.createElement("li")
     const a = document.createElement("a")
     // li element
@@ -27,6 +27,6 @@ function addTodo(e) {
     a.innerHTML = "Delete"
     // inserts a element into li children
     li.appendChild(a)
-
-    console.log(li)
+    // inserts li element into todoList children
+    todoList.appendChild(li)
 }
