@@ -6,6 +6,7 @@ const todoList = document.querySelector("#todo-list")
 const todoClearButton = document.querySelector("#clear-todos")
 
 todoForm.addEventListener("submit", addTodo)
+todoList.addEventListener("click", deleteTodo)
 
 /*
     preventDefault() is a method that prevents the occurrence of a built-in DOM event, 
@@ -29,4 +30,14 @@ function addTodo(e) {
     li.appendChild(a)
     // inserts li element into todoList children
     todoList.appendChild(li)
+}
+
+function deleteTodo(e) {
+    e.preventDefault();
+    if (e.target.classList.contains("delete-todo")) {
+        if (confirm("Apakah anda ingin menghapus?")) {
+            const parent = e.target.parentElement;
+            parent.remove();
+        }
+    }
 }
