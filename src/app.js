@@ -1,4 +1,4 @@
-// UI Element
+// UI Elements
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoFilterInput = document.querySelector("#filter-input");
