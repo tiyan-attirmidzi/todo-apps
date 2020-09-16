@@ -16,28 +16,34 @@ todoList.addEventListener("click", deleteTodo)
 
 function addTodo(e) {
     e.preventDefault()
-    let title = document.createTextNode(todoInput.value)
-    const li = document.createElement("li")
-    const a = document.createElement("a")
-    // li element
-    li.className = "list-group-item d-flex justify-content-between align-items-center mb-1"
-    li.appendChild(title)
-    // a element
-    a.href = "#"
-    a.className = "badge badge-danger"
-    a.innerHTML = "Delete"
-    // inserts a element into li children
-    li.appendChild(a)
-    // inserts li element into todoList children
-    todoList.appendChild(li)
+    if (todoInput.value) {
+        let title = document.createTextNode(todoInput.value)
+        const li = document.createElement("li")
+        const a = document.createElement("a")
+        // li element
+        li.className = "list-group-item d-flex justify-content-between align-items-center mb-1"
+        li.appendChild(title)
+        // a element
+        a.href = "#"
+        a.className = "badge badge-danger delete-todo"
+        a.innerHTML = "Delete"
+        // inserts a element into li children
+        li.appendChild(a)
+        // inserts li element into todoList children
+        todoList.appendChild(li)
+        todoInput.value = ""
+    }
+    else {
+        alert("Enter your todos title")
+    }
 }
 
 function deleteTodo(e) {
-    e.preventDefault();
+    e.preventDefault()
     if (e.target.classList.contains("delete-todo")) {
         if (confirm("Apakah anda ingin menghapus?")) {
             const parent = e.target.parentElement;
-            parent.remove();
+            parent.remove()
         }
     }
 }
