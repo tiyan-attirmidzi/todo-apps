@@ -5,10 +5,13 @@ const todoFilterInput = document.querySelector("#filter-input")
 const todoList = document.querySelector("#todo-list")
 const todoClearButton = document.querySelector("#clear-todos")
 
+// Event Listener
 todoForm.addEventListener("submit", addTodo)
 todoList.addEventListener("click", deleteTodo)
 todoClearButton.addEventListener("click", clearTodo)
 todoFilterInput.addEventListener("keyup", filterTodo)
+
+// DOM Function
 
 /*
     preventDefault() is a method that prevents the occurrence of a built-in DOM event, 
@@ -33,11 +36,25 @@ function addTodo(e) {
         li.appendChild(a)
         // inserts li element into todoList children
         todoList.appendChild(li)
+        // add data to localStorage
+        addToLocalStorage(todoInput.value)
+        // set todoInput to empty
         todoInput.value = ""
     }
     else {
         alert("Enter your todos title")
     }
+}
+
+function addToLocalStorage(title) {
+    let todos;
+    if (localStorage.getItem("todos") == null) {
+        todos = []
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"))
+    }
+    todos.push(title)
+    localStorage.setItem("todos", JSON.stringify(todos))
 }
 
 function deleteTodo(e) {
