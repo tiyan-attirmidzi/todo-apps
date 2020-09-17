@@ -62,6 +62,19 @@ function getItemFromLocalStorage() {
     return todos
 }
 
+function deleteItemFromLocalStorage(deletedElement) {
+    const todos = getItemFromLocalStorage()
+
+    todos.forEach((todo, index) => {
+        if (deletedElement.firstChild.textContent == todo) {
+            // splice(start, remove, add). here we use splice as todo item remover
+            todos.splice(index, 1)
+        }
+    });
+
+    localStorage.setItem("todos", JSON.stringify(todos))
+}
+
 function todoListElement(value) {
     let title = document.createTextNode(value)
     const li = document.createElement("li")
@@ -85,6 +98,7 @@ function deleteTodo(e) {
         if (confirm("Apakah anda ingin menghapus?")) {
             const parent = e.target.parentElement;
             parent.remove()
+            deleteItemFromLocalStorage(parent)
         }
     }
 }
