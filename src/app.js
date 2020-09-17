@@ -5,10 +5,25 @@ const todoFilterInput = document.querySelector("#filter-input")
 const todoList = document.querySelector("#todo-list")
 const todoClearButton = document.querySelector("#clear-todos")
 
-todoForm.addEventListener("submit", addTodo)
-todoList.addEventListener("click", deleteTodo)
-todoClearButton.addEventListener("click", clearTodo)
-todoFilterInput.addEventListener("keyup", filterTodo)
+loadEventListener()
+
+// Event Listener
+function loadEventListener() {
+    todoForm.addEventListener("submit", addTodoElement)
+    todoList.addEventListener("click", deleteTodoElement)
+    todoClearButton.addEventListener("click", clearTodoElement)
+    todoFilterInput.addEventListener("keyup", filterTodo)
+    document.addEventListener("DOMContentLoaded", getTodos)
+}
+
+// DOM Function
+
+function getTodos() {
+    const todos = getItemFromLocalStorage()
+    todos.forEach((todo) => {
+        todoListElement(todo)
+    });
+}
 
 /*
     preventDefault() is a method that prevents the occurrence of a built-in DOM event, 
@@ -16,23 +31,14 @@ todoFilterInput.addEventListener("keyup", filterTodo)
     or a form if we click the submit button it will also reload.
 */
 
-function addTodo(e) {
+function addTodoElement(e) {
     e.preventDefault()
     if (todoInput.value) {
-        let title = document.createTextNode(todoInput.value)
-        const li = document.createElement("li")
-        const a = document.createElement("a")
-        // li element
-        li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
-        li.appendChild(title)
-        // a element
-        a.href = "#"
-        a.className = "badge badge-danger delete-todo"
-        a.innerHTML = "Delete"
-        // inserts a element into li children
-        li.appendChild(a)
-        // inserts li element into todoList children
-        todoList.appendChild(li)
+        let todoInputValue = todoInput.value
+        todoListElement(todoInputValue)
+        // add data to localStorage
+        addItemToLocalStorage(todoInputValue)
+        // set todoInput to empty
         todoInput.value = ""
     }
     else {
@@ -40,18 +46,70 @@ function addTodo(e) {
     }
 }
 
-function deleteTodo(e) {
+function addItemToLocalStorage(title) {
+    const todos = getItemFromLocalStorage()
+    todos.push(title)
+    localStorage.setItem("todos", JSON.stringify(todos))
+}
+
+function getItemFromLocalStorage() {
+    let todos;
+    if (localStorage.getItem("todos") == null) {
+        todos = []
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"))
+    }
+    return todos
+}
+
+function deleteItemFromLocalStorage(deletedElement) {
+    const todos = getItemFromLocalStorage()
+
+    todos.forEach((todo, index) => {
+        if (deletedElement.firstChild.textContent == todo) {
+            // splice(start, remove, add). here we use splice as todo item remover
+            todos.splice(index, 1)
+        }
+    });
+
+    localStorage.setItem("todos", JSON.stringify(todos))
+}
+
+function clearItemFromLocalStorage() {
+    localStorage.clear()
+}
+
+function todoListElement(value) {
+    let title = document.createTextNode(value)
+    const li = document.createElement("li")
+    const a = document.createElement("a")
+    // li element
+    li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
+    li.appendChild(title)
+    // a element
+    a.href = "#"
+    a.className = "badge badge-danger delete-todo"
+    a.innerHTML = "Delete"
+    // inserts a element into li children
+    li.appendChild(a)
+    // inserts li element into todoList children
+    todoList.appendChild(li)
+}
+
+function deleteTodoElement(e) {
     e.preventDefault()
     if (e.target.classList.contains("delete-todo")) {
         if (confirm("Apakah anda ingin menghapus?")) {
             const parent = e.target.parentElement;
             parent.remove()
+            deleteItemFromLocalStorage(parent)
         }
     }
 }
 
-function clearTodo() {
+function clearTodoElement() {
     todoList.innerHTML = ""
+    clearItemFromLocalStorage()
 }
 
 /*
