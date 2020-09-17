@@ -19,28 +19,9 @@ function loadEventListener() {
 // DOM Function
 
 function getTodos() {
-    let todos;
-    if (localStorage.getItem("todos") == null) {
-        todos = []
-    } else {
-        todos = JSON.parse(localStorage.getItem("todos"))
-    }
-
+    const todos = getItemFromLocalStorage()
     todos.forEach((todo) => {
-        let title = document.createTextNode(todo)
-        const li = document.createElement("li")
-        const a = document.createElement("a")
-        // li element
-        li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
-        li.appendChild(title)
-        // a element
-        a.href = "#"
-        a.className = "badge badge-danger delete-todo"
-        a.innerHTML = "Delete"
-        // inserts a element into li children
-        li.appendChild(a)
-        // inserts li element into todoList children
-        todoList.appendChild(li)
+        todoListElement(todo)
     });
 }
 
@@ -53,22 +34,10 @@ function getTodos() {
 function addTodo(e) {
     e.preventDefault()
     if (todoInput.value) {
-        let title = document.createTextNode(todoInput.value)
-        const li = document.createElement("li")
-        const a = document.createElement("a")
-        // li element
-        li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
-        li.appendChild(title)
-        // a element
-        a.href = "#"
-        a.className = "badge badge-danger delete-todo"
-        a.innerHTML = "Delete"
-        // inserts a element into li children
-        li.appendChild(a)
-        // inserts li element into todoList children
-        todoList.appendChild(li)
+        let todoInputValue = todoInput.value
+        todoListElement(todoInputValue)
         // add data to localStorage
-        addToLocalStorage(todoInput.value)
+        addItemToLocalStorage(todoInputValue)
         // set todoInput to empty
         todoInput.value = ""
     }
@@ -77,15 +46,37 @@ function addTodo(e) {
     }
 }
 
-function addToLocalStorage(title) {
+function addItemToLocalStorage(title) {
+    const todos = getItemFromLocalStorage()
+    todos.push(title)
+    localStorage.setItem("todos", JSON.stringify(todos))
+}
+
+function getItemFromLocalStorage() {
     let todos;
     if (localStorage.getItem("todos") == null) {
         todos = []
     } else {
         todos = JSON.parse(localStorage.getItem("todos"))
     }
-    todos.push(title)
-    localStorage.setItem("todos", JSON.stringify(todos))
+    return todos
+}
+
+function todoListElement(value) {
+    let title = document.createTextNode(value)
+    const li = document.createElement("li")
+    const a = document.createElement("a")
+    // li element
+    li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
+    li.appendChild(title)
+    // a element
+    a.href = "#"
+    a.className = "badge badge-danger delete-todo"
+    a.innerHTML = "Delete"
+    // inserts a element into li children
+    li.appendChild(a)
+    // inserts li element into todoList children
+    todoList.appendChild(li)
 }
 
 function deleteTodo(e) {
