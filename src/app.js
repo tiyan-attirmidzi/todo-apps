@@ -9,9 +9,9 @@ loadEventListener()
 
 // Event Listener
 function loadEventListener() {
-    todoForm.addEventListener("submit", addTodo)
-    todoList.addEventListener("click", deleteTodo)
-    todoClearButton.addEventListener("click", clearTodo)
+    todoForm.addEventListener("submit", addTodoElement)
+    todoList.addEventListener("click", deleteTodoElement)
+    todoClearButton.addEventListener("click", clearTodoElement)
     todoFilterInput.addEventListener("keyup", filterTodo)
     document.addEventListener("DOMContentLoaded", getTodos)
 }
@@ -31,7 +31,7 @@ function getTodos() {
     or a form if we click the submit button it will also reload.
 */
 
-function addTodo(e) {
+function addTodoElement(e) {
     e.preventDefault()
     if (todoInput.value) {
         let todoInputValue = todoInput.value
@@ -75,6 +75,10 @@ function deleteItemFromLocalStorage(deletedElement) {
     localStorage.setItem("todos", JSON.stringify(todos))
 }
 
+function clearItemFromLocalStorage() {
+    localStorage.clear()
+}
+
 function todoListElement(value) {
     let title = document.createTextNode(value)
     const li = document.createElement("li")
@@ -92,7 +96,7 @@ function todoListElement(value) {
     todoList.appendChild(li)
 }
 
-function deleteTodo(e) {
+function deleteTodoElement(e) {
     e.preventDefault()
     if (e.target.classList.contains("delete-todo")) {
         if (confirm("Apakah anda ingin menghapus?")) {
@@ -103,8 +107,9 @@ function deleteTodo(e) {
     }
 }
 
-function clearTodo() {
+function clearTodoElement() {
     todoList.innerHTML = ""
+    clearItemFromLocalStorage()
 }
 
 /*
