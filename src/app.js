@@ -5,13 +5,44 @@ const todoFilterInput = document.querySelector("#filter-input")
 const todoList = document.querySelector("#todo-list")
 const todoClearButton = document.querySelector("#clear-todos")
 
+loadEventListener()
+
 // Event Listener
-todoForm.addEventListener("submit", addTodo)
-todoList.addEventListener("click", deleteTodo)
-todoClearButton.addEventListener("click", clearTodo)
-todoFilterInput.addEventListener("keyup", filterTodo)
+function loadEventListener() {
+    todoForm.addEventListener("submit", addTodo)
+    todoList.addEventListener("click", deleteTodo)
+    todoClearButton.addEventListener("click", clearTodo)
+    todoFilterInput.addEventListener("keyup", filterTodo)
+    document.addEventListener("DOMContentLoaded", getTodos)
+}
 
 // DOM Function
+
+function getTodos() {
+    let todos;
+    if (localStorage.getItem("todos") == null) {
+        todos = []
+    } else {
+        todos = JSON.parse(localStorage.getItem("todos"))
+    }
+
+    todos.forEach((todo) => {
+        let title = document.createTextNode(todo)
+        const li = document.createElement("li")
+        const a = document.createElement("a")
+        // li element
+        li.className = "list-group-item d-flex justify-content-between align-items-center mb-1 todo-item"
+        li.appendChild(title)
+        // a element
+        a.href = "#"
+        a.className = "badge badge-danger delete-todo"
+        a.innerHTML = "Delete"
+        // inserts a element into li children
+        li.appendChild(a)
+        // inserts li element into todoList children
+        todoList.appendChild(li)
+    });
+}
 
 /*
     preventDefault() is a method that prevents the occurrence of a built-in DOM event, 
