@@ -2,7 +2,7 @@
 
 <pre>
     <p align="center">
-        <img width="460" height="300" src="image/todo-apps.png">
+        <img width="500" src="image/todo-apps.png">
     </p>
 </pre>
 
