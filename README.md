@@ -1,10 +1,18 @@
 # TODO APPS
 
 <pre>
-  <img src="image/todo-apps.png">
+    <p align="center">
+        <img width="720" src="image/todo-apps.png">
+    </p>
 </pre>
 
-![](image/demo.gif)
+### DEMO
+<pre>
+    <p align="center">
+        <img width="720" src="image/todo-apps.png">
+        <img src="image/demo.gif" width="720" />
+    </p>
+</pre>
 
 ### Feature
 
