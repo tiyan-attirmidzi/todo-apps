@@ -17,5 +17,5 @@
 ### Tech Stack
 
 * [x] <a href="https://getbootstrap.com/">Bootstrap</a>
-* [x] <a href="http://vanilla-js.com/>Vanilla JS</a>
+* [x] <a href="http://vanilla-js.com/">Vanilla JS</a>
 * [x] <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">Local Storage</a>
